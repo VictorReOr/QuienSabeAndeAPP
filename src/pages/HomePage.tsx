@@ -55,7 +55,7 @@ export function Home() {
     }
 
     return (
-        <div className="h-full flex flex-col">
+        <div className="h-full flex flex-col p-2">
             {/* Header: Search and total */}
             <div className="flex-none mb-2">
                 <div className="flex">
@@ -102,10 +102,10 @@ export function Home() {
 
             {/* Pruduct list */}
             <div className="flew-grow overflow-y-auto">
-                <div className="flex-grow overflow-y-auto mb-4 p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <div className="flex-grow overflow-y-auto mb-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <div className="divide-y divide-gray-200 dark:divide-gray-700">
-                        {products && filteredProduct?.map((product) => (
-                            <div className="py-2" key={product.name}>
+                        {products && filteredProduct?.map((product, index) => (
+                            <div className={index % 2 === 0 ? 'p-4 bg-gray-50' : 'p-4 bg-gray-100'} key={product.name}>
                                 <ProductItem product={product} onAdd={addProduct} onRemove={removeProduct} total={productCountByNames[product.name]} />
                             </div>
                         ))}

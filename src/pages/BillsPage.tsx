@@ -41,18 +41,18 @@ export function BillsPage() {
 
             {/* Pruduct list */}
             <div className="flew-grow overflow-y-auto">
-                <div className="flex-grow overflow-y-auto mb-4 p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <div className="flex-grow overflow-y-auto mb-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <div className="divide-y divide-gray-200 dark:divide-gray-700">
-                        {bills && bills?.map((bill: Bill) => (
-                            <div className="py-2 cursor-pointer" key={bill.name} onClick={() => selectBill(bill)}>
+                        {bills && bills?.map((bill: Bill, index: number) => (
+                            <div className={index % 2 ? "p-4 cursor-pointer bg-gray-50" : "p-4 cursor-pointer bg-gray-100"} key={bill.name} onClick={() => selectBill(bill)}>
                                 <div className="flex items-center">
                                     <div className="relative flex-shrink-0">
                                         <i className={"fa-solid fa-wallet " + (selectedBill === bill.name ? "text-blue-500" : "dark:text-gray-400")} ></i>
                                     </div>
                                     <div className="flex-1 min-w-0 ms-4">
                                         <p className={"text-sm font-medium truncate " + (selectedBill === bill.name ? "text-blue-500 dark:text-blue-500 font-bold" : "text-gray-900 dark:text-white")}>
-                                            {bill.name}  
-                                            <span className={"pl-4 " +  (selectedBill === bill.name ? "text-blue-600 dark:text-blue-300" : "text-gray-700 dark:text-gray-500")}>{moment(bill.date).format('DD/MM/YYYY HH:mm')}</span>
+                                            {bill.name}
+                                            <span className={"pl-4 " + (selectedBill === bill.name ? "text-blue-600 dark:text-blue-300" : "text-gray-700 dark:text-gray-500")}>{moment(bill.date).format('DD/MM/YYYY HH:mm')}</span>
                                             <span className="pl-4">{selectedBill === bill.name ? 'Actual' : ''}</span>
                                         </p>
                                     </div>
