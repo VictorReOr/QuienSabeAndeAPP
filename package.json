@@ -2,7 +2,7 @@
     "name": "quien-sabe-ande",
     "version": "0.1.0",
     "private": true,
-    "homepage": "https://VictorReOr.github.io/quiensabeande",
+    "homepage": "https://VictorReOr.github.io/QuienSabeAndeAPP",
     "scripts": {
         "predeploy": "npm run build",
         "deploy": "gh-pages -d build",
