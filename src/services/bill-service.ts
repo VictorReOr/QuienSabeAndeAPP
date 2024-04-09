@@ -4,16 +4,18 @@ import { LocalStorageService } from './local-storage-service';
 export class BillService {
 
     static KEY: string = 'billing-bills';
+    static KEY_LAST_INDEX = 'billing-last-index';
 
     /**
      * Add a new bill.
      *
      * @param {Bill} newBill New bill.
      */
-    public static add(newBill: Bill): Bill {
+    public static add(newBill: Bill, lastIndex: number): Bill {
         const bills: Bill[] = BillService.getBills();
         bills.unshift(newBill);
         LocalStorageService.set(BillService.KEY, bills);
+        LocalStorageService.set(BillService.KEY_LAST_INDEX, lastIndex + 1 || 0);
         return newBill;
     };
 
@@ -23,10 +25,10 @@ export class BillService {
      * @param {string} billName Bill name.
      */
     public static addNew(billName?: string): Bill {
-        const bills: Bill[] = BillService.getBills();
-        const name = billName || 'Cuenta ' + (bills.length + 1);
+        let lastIndex: number = LocalStorageService.get(BillService.KEY_LAST_INDEX) || 0;
+        const name = billName || 'Cuenta ' + (lastIndex + 1);
         const newBill = { name, date: new Date().toISOString(), products: [], total: 0 };
-        return BillService.add(newBill);
+        return BillService.add(newBill, lastIndex);
     };
 
     /**
@@ -96,6 +98,8 @@ export class BillService {
      */
     public static removeAllBills() {
         LocalStorageService.remove(BillService.KEY);
+        LocalStorageService.set(BillService.KEY_LAST_INDEX, 0);
+
     };
 
     /**

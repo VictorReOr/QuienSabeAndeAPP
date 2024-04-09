@@ -19,12 +19,12 @@ export function BillsPage() {
     const selectBill = (bill: Bill) => {
         setSelectedBill(bill.name);
         UserService.updateUserConfiguration({ selectedBill: bill.name });
+        setBills(BillService.getBills());
     }
 
     const removeBill = (name: string) => {
         setBills(BillService.removeBill(name));
     }
-
     return (
         <div className="h-full flex flex-col">
             {/* Header: Search and total */}
@@ -49,7 +49,7 @@ export function BillsPage() {
                         {bills && bills?.map((bill: Bill, index: number) => (
                             <BillRow key={crypto.randomUUID()} bill={bill} index={index} selectedBill={selectedBill} methods={{ selectBill, removeBill }} />
                         ))}
-                        {bills?.length === 0 && <div className="dark:text-gray-400 text-center">No hay cuentas disponibles</div>}
+                        {bills?.length === 0 && <div className="dark:text-gray-400 text-center p-4">No hay cuentas disponibles</div>}
                     </div>
                 </div>
             </div>
