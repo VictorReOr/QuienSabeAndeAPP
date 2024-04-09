@@ -97,4 +97,28 @@ export class BillService {
     public static removeAllBills() {
         LocalStorageService.remove(BillService.KEY);
     };
+
+    /**
+     * Remove all bills.
+     */
+    public static removeBill(name: string) {
+        const storedBills = LocalStorageService.get(BillService.KEY);
+        const updatedBills = storedBills.filter((bill: Bill) => bill.name !== name);
+        LocalStorageService.set(BillService.KEY, updatedBills);
+        return updatedBills
+    };
+
+    /**
+     * Change the name of a bill.
+     */
+    public static changeNameBill(oldName: string, newName: string) {
+        const storedBills = LocalStorageService.get(BillService.KEY);
+        const index = storedBills.findIndex((bill: Bill) => bill.name === oldName);
+        if (index === -1) {
+            return;
+        }
+        storedBills[index] = { ...storedBills[index], name: newName };
+        LocalStorageService.set(BillService.KEY, storedBills);
+
+    };
 }
