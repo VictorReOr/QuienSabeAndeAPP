@@ -57,6 +57,7 @@ export function Home() {
     return (
         <div className="h-full flex flex-col p-2">
             {/* Header: Search and total */}
+            <div className="p-2 text-xl font-bold flex w-full truncate min-h-12">{selectedBill}</div>
             <div className="flex-none mb-2">
                 <div className="flex">
                     <div className="relative flex-1">
