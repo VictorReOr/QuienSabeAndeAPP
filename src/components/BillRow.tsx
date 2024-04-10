@@ -69,7 +69,7 @@ export const BillRow: React.FC<Props> = ({ bill, index, selectedBill, methods })
                             <i className={"fa-solid fa-wallet " + (selectedBill === bill.name ? "text-blue-500" : "dark:text-gray-400")} ></i>
                         </div>
                         {/*Nombre y fecha*/}
-                        <div className="flex max-w-52 ms-4">
+                        <div className="flex max-w-40 ms-4">
                             <p className={"text-sm font-medium truncate " + (selectedBill === bill.name ? "text-blue-500 dark:text-blue-500 font-bold" : "text-gray-900 dark:text-white")}>
                                 {!isEditing && billName.current}
                                 {isEditing && <input ref={inputName} onBlur={blurHandler} defaultValue={billName.current} />}
@@ -80,7 +80,7 @@ export const BillRow: React.FC<Props> = ({ bill, index, selectedBill, methods })
                     </div>
                 </div>
                 {/*Total de cuenta*/}
-                <div className="text-base font-semibold text-right text-gray-900 min-w-20 dark:text-white">
+                <div className={"py-4  font-semibold text-right  min-w-10 " + (index % 2 ? "bg-gray-50" : "bg-gray-100")}>
                     {bill.total} €
                 </div>
                 <div className={"min-w-20 text-right text-base font-semibold text-green-700 dark:text-green-500 " + (!user.isPatner && 'hidden')}>
