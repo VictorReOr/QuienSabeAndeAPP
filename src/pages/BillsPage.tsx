@@ -57,10 +57,10 @@ export function BillsPage() {
                                         </p>
                                     </div>
                                     <div className="min-w-20 text-right text-base font-semibold text-gray-900 dark:text-white">
-                                        {bill.total} €
+                                        {bill.total.toFixed(2)} €
                                     </div>
                                     <div className={"min-w-20 text-right text-base font-semibold text-green-700 dark:text-green-500 " + (!user.isPatner && 'hidden')}>
-                                        {bill.total - (bill.total * 0.2)} <span className="text-green-800">€</span>
+                                        {(bill.total - (bill.total * 0.2)).toFixed(2)} <span className="text-green-800">€</span>
                                     </div>
                                 </div>
                             </div>
