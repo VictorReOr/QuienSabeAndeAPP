@@ -38,12 +38,11 @@ export const BillRow: React.FC<Props> = ({ bill, index, selectedBill, methods })
     }, {});
 
     const blurHandler = () => {
-        if (inputName.current) {
+        if (inputName.current && inputName.current.value) {
             BillService.changeNameBill(billName.current, inputName.current.value);
             billName.current = inputName.current.value;
             methods.selectBill({ ...bill, name: billName.current });
         }
-
         setIsEditing(false);
     }
     const handleDelete = () => {
@@ -51,9 +50,10 @@ export const BillRow: React.FC<Props> = ({ bill, index, selectedBill, methods })
 
     };
     return (
-        <div className={index % 2 ? "grid grid-flow-row auto-rows-auto bg-gray-50" : "grid grid-flow-row auto-rows-auto bg-gray-100"}>
-            <div className="w-max flex justify-between cursor-pointer">
-                <button className="w-fit p-4" onClick={() => setIsExpanded(!isExpanded)}>
+        <div className={index % 2 ? "bg-gray-50" : "bg-gray-100"}>
+            <div className="flex items-center justify-between w-full cursor-pointer">
+                {/*Botón de expandir contraer*/}
+                <button className="p-2 w-fit" onClick={() => setIsExpanded(!isExpanded)}>
                     {isExpanded ? <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                     </svg> : < svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -61,27 +61,33 @@ export const BillRow: React.FC<Props> = ({ bill, index, selectedBill, methods })
                     </svg>
                     }
                 </button>
-                <div className={index % 2 ? "w-fit p-4 bg-gray-50" : "w-fit p-4 bg-gray-100"} key={bill.name} onClick={() => methods.selectBill(bill)}>
-                    <div className="flex items-center">
+                {/*Zona de datos*/}
+                <div className={index % 2 ? "min-w-52 w-52  p-4 bg-gray-50" : "min-w-52 w-52 p-4 bg-gray-100"} key={bill.name} onClick={() => methods.selectBill(bill)}>
+                    {/*Icono cartera*/}
+                    <div className="flex items-center justify-start">
                         <div className="relative flex-shrink-0">
                             <i className={"fa-solid fa-wallet " + (selectedBill === bill.name ? "text-blue-500" : "dark:text-gray-400")} ></i>
                         </div>
-                        <div className="flex-1 min-w-0 ms-4">
-                            <p className={"flex text-sm font-medium truncate " + (selectedBill === bill.name ? "text-blue-500 dark:text-blue-500 font-bold" : "text-gray-900 dark:text-white")}>
-                                {!isEditing ? <span className='truncate max-w-28'>{billName.current}</span> : <input name='Nombre cuenta' ref={inputName} defaultValue={billName.current} type='text' onBlur={blurHandler} />}
-                                <span className={"pl-4 " + (selectedBill === bill.name ? "text-blue-600 dark:text-blue-300" : "text-gray-700 dark:text-gray-500")}>{moment(bill.date).format('DD/MM/YYYY HH:mm')}</span>
-                                <span className="pl-4 hidden">{selectedBill === bill.name ? 'Actual' : ''}</span>
+                        {/*Nombre y fecha*/}
+                        <div className="flex max-w-52 ms-4">
+                            <p className={"text-sm font-medium truncate " + (selectedBill === bill.name ? "text-blue-500 dark:text-blue-500 font-bold" : "text-gray-900 dark:text-white")}>
+                                {!isEditing && billName.current}
+                                {isEditing && <input ref={inputName} onBlur={blurHandler} defaultValue={billName.current} />}
+                                {' - '}
+                                {moment(bill.date).format('DD/MM/YYYY')}
                             </p>
-                        </div>
-                        <div className="min-w-20 text-right text-base font-semibold text-gray-900 dark:text-white">
-                            {bill.total} €
-                        </div>
-                        <div className={"min-w-20 text-right text-base font-semibold text-green-700 dark:text-green-500 " + (!user.isPatner && 'hidden')}>
-                            {bill.total - (bill.total * 0.2)} <span className="text-green-800">€</span>
                         </div>
                     </div>
                 </div>
-                <div>
+                {/*Total de cuenta*/}
+                <div className="text-base font-semibold text-right text-gray-900 min-w-20 dark:text-white">
+                    {bill.total} €
+                </div>
+                <div className={"min-w-20 text-right text-base font-semibold text-green-700 dark:text-green-500 " + (!user.isPatner && 'hidden')}>
+                    {bill.total - (bill.total * 0.2)} <span className="text-green-800">€</span>
+                </div>
+                {/*Botones de editar y borrar*/}
+                <div className='flex'>
                     <button className={index % 2 ? "w-fit p-4 bg-gray-50" : "w-fit p-4 bg-gray-100"} onClick={() => setIsEditing(!isEditing)}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
@@ -93,19 +99,17 @@ export const BillRow: React.FC<Props> = ({ bill, index, selectedBill, methods })
                         </svg>
                     </button>
                 </div>
-
-
             </div >
-            <div className={index % 2 ? " bg-gray-50" : " bg-gray-100"}>
-                <div className={(isExpanded ? 'flex justify-start' : 'hidden ')}>
-
-                    <ul className="ml-2 w-fit divide-y divide-gray-200 dark:divide-gray-700">
+            {/*Productos de la cuenta*/}
+            <div className={index % 2 ? " bg-gray-50 w-full" : " bg-gray-100 w-max"}>
+                <div className={(isExpanded ? 'p-4 w-full' : 'hidden ')}>
+                    <ul className="w-full ml-2 divide-y divide-gray-200 dark:divide-gray-700">
                         {groupedProducts && Object.keys(groupedProducts).map((name: string) => (
-                            <li className='p-2 text-sm font-medium truncate text-gray-900 dark:text-white' key={name}>
-                                <div className="grid grid-cols-4 grid-flow-col gap-4 text-left">
-                                    <p className='col-span-2'>{name}</p>
-                                    <p className='col-span-1'>x{groupedProducts[name].length}</p>
-                                    <p className='col-span-1 w-fit	font-semibold'>{groupedProducts[name].length * groupedProducts[name][0].price} €</p>
+                            <li className='w-full p-2 text-sm font-medium text-gray-900 truncate dark:text-white' key={name}>
+                                <div className="flex justify-between text-left">
+                                    <p className='w-1/3 min-w-48'>{name}</p>
+                                    <p className='w-1/3 min-w-12'>x{groupedProducts[name].length}</p>
+                                    <p className='w-1/3 font-semibold min-w-12 '>{groupedProducts[name].length * groupedProducts[name][0].price} €</p>
                                 </div>
                             </li>
                         ))}
