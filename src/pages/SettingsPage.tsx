@@ -63,7 +63,7 @@ export function SettingsPage() {
                 <div className="flex content-center">
                     <h2 className="flex-grow dark:text-gray-400">Lista de catálogos</h2>
                     <button type="button" onClick={refreshCatalogs}
-                        className={"px-3 py-1 text-xs font-medium text-center inline-flex items-center text-white  rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 " + (refreshingCatalogs ? "bg-gray-700 dark:bg-gray-600" : "bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700" )}
+                        className={"px-3 py-1 text-xs font-medium text-center inline-flex items-center text-white  rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 " + (refreshingCatalogs ? "bg-gray-700 dark:bg-gray-600" : "bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700")}
                         disabled={refreshingCatalogs}
                     >
                         <i className="fa-solid fa-sync pr-2"></i>
@@ -73,10 +73,10 @@ export function SettingsPage() {
             </div>
 
             <div className="flew-grow overflow-y-auto">
-                <div className="flex-grow overflow-y-auto mb-4 p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <div className="flex-grow overflow-y-auto mb-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <div className="divide-y divide-gray-200 dark:divide-gray-700">
-                        {catalogs && catalogs?.map((name: string) => (
-                            <div className="py-2 cursor-pointer" key={name}>
+                        {catalogs && catalogs?.map((name: string, index: number) => (
+                            <div className={index % 2 ? "p-4 cursor-pointer bg-gray-50" : "p-4 cursor-pointer bg-gray-100"} key={name}>
                                 <div className="flex items-center">
                                     <div className="relative flex-shrink-0">
                                         <i className={"fa-brands fa-product-hunt " + (selectedCatalog === name ? "dark:text-blue-500" : "dark:text-gray-400")} ></i>
@@ -98,6 +98,6 @@ export function SettingsPage() {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }

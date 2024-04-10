@@ -1,15 +1,14 @@
-import moment from 'moment';
 import { useState } from 'react';
 import { BillService } from '../services/bill-service';
 import { UserService } from '../services/user-service';
 import { Bill } from '../types';
+import BillRow from '../components/BillRow';
 
 export function BillsPage() {
-
     const user = UserService.getUserConfiguration();
-
     const [bills, setBills] = useState(BillService.getBills());
     const [selectedBill, setSelectedBill] = useState(user.selectedBill);
+
 
     const onRemove = () => {
         BillService.removeAllBills();
@@ -20,18 +19,22 @@ export function BillsPage() {
     const selectBill = (bill: Bill) => {
         setSelectedBill(bill.name);
         UserService.updateUserConfiguration({ selectedBill: bill.name });
+        setBills(BillService.getBills());
     }
 
+    const removeBill = (name: string) => {
+        setBills(BillService.removeBill(name));
+    }
     return (
-        <div className="h-full flex flex-col">
+        <div className="flex flex-col h-full">
             {/* Header: Search and total */}
-            <div className="flex-none mb-4 p-2">
+            <div className="flex-none p-2 mb-4">
                 <div className="flex content-center">
-                    <h1 className="flex-grow dark:text-gray-400 text-2xl">Histórico de cuentas</h1>
+                    <h1 className="flex-grow text-2xl dark:text-gray-400">Histórico de cuentas</h1>
                     <div className="flex-none">
                         <button type="button"
                             onDoubleClick={onRemove}
-                            className="border border-gray-700 hover:bg-gray-700 text-gray-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-sm p-2 text-center inline-flex items-center dark:border-gray-500 dark:text-gray-500 dark:hover:text-white dark:focus:ring-gray-800 dark:hover:bg-gray-500"
+                            className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 border border-gray-700 rounded-full hover:bg-gray-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-gray-300 dark:border-gray-500 dark:text-gray-500 dark:hover:text-white dark:focus:ring-gray-800 dark:hover:bg-gray-500"
                         >
                             <i className="fa-solid fa-trash-can"></i>
                         </button>
@@ -40,32 +43,13 @@ export function BillsPage() {
             </div>
 
             {/* Pruduct list */}
-            <div className="flew-grow overflow-y-auto">
-                <div className="flex-grow overflow-y-auto mb-4 p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div className="overflow-y-auto flew-grow">
+                <div className="flex-grow mb-4 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <div className="divide-y divide-gray-200 dark:divide-gray-700">
-                        {bills && bills?.map((bill: Bill) => (
-                            <div className="py-2 cursor-pointer" key={bill.name} onClick={() => selectBill(bill)}>
-                                <div className="flex items-center">
-                                    <div className="relative flex-shrink-0">
-                                        <i className={"fa-solid fa-wallet " + (selectedBill === bill.name ? "text-blue-500" : "dark:text-gray-400")} ></i>
-                                    </div>
-                                    <div className="flex-1 min-w-0 ms-4">
-                                        <p className={"text-sm font-medium truncate " + (selectedBill === bill.name ? "text-blue-500 dark:text-blue-500 font-bold" : "text-gray-900 dark:text-white")}>
-                                            {bill.name}  
-                                            <span className={"pl-4 " +  (selectedBill === bill.name ? "text-blue-600 dark:text-blue-300" : "text-gray-700 dark:text-gray-500")}>{moment(bill.date).format('DD/MM/YYYY HH:mm')}</span>
-                                            <span className="pl-4">{selectedBill === bill.name ? 'Actual' : ''}</span>
-                                        </p>
-                                    </div>
-                                    <div className="min-w-20 text-right text-base font-semibold text-gray-900 dark:text-white">
-                                        {bill.total.toFixed(2)} €
-                                    </div>
-                                    <div className={"min-w-20 text-right text-base font-semibold text-green-700 dark:text-green-500 " + (!user.isPatner && 'hidden')}>
-                                        {(bill.total - (bill.total * 0.2)).toFixed(2)} <span className="text-green-800">€</span>
-                                    </div>
-                                </div>
-                            </div>
+                        {bills && bills?.map((bill: Bill, index: number) => (
+                            <BillRow key={crypto.randomUUID()} bill={bill} index={index} selectedBill={selectedBill} methods={{ selectBill, removeBill }} />
                         ))}
-                        {bills?.length === 0 && <div className="dark:text-gray-400 text-center">No hay cuentas disponibles</div>}
+                        {bills?.length === 0 && <div className="p-4 text-center dark:text-gray-400">No hay cuentas disponibles</div>}
                     </div>
                 </div>
             </div>
