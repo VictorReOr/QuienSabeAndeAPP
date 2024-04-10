@@ -17,6 +17,7 @@ interface Props {
 
 export const BillRow: React.FC<Props> = ({ bill, index, selectedBill, methods }) => {
     const user = UserService.getUserConfiguration();
+    const totalDiscount = bill.total - (bill.total * 0.2);
     const [isExpanded, setIsExpanded] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const inputName = useRef<HTMLInputElement>(null);
@@ -29,10 +30,12 @@ export const BillRow: React.FC<Props> = ({ bill, index, selectedBill, methods })
     }, [isEditing]);
 
     const groupedProducts: { [name: string]: Product[] } = bill.products.reduce((acc: { [name: string]: Product[] }, product: any) => {
+        const fixedPrice = product.price.toFixed(2);
         if (acc[product.name]) {
-            acc[product.name].push(product);
+
+            acc[product.name].push({ ...product, price: fixedPrice });
         } else {
-            acc[product.name] = [product];
+            acc[product.name] = [{ ...product, price: fixedPrice }];
         }
         return acc;
     }, {});
@@ -81,10 +84,10 @@ export const BillRow: React.FC<Props> = ({ bill, index, selectedBill, methods })
                 </div>
                 {/*Total de cuenta*/}
                 <div className={"py-4  font-semibold text-right  min-w-10 " + (index % 2 ? "bg-gray-50" : "bg-gray-100")}>
-                    {bill.total} €
+                    {bill.total.toFixed(2)} €
                 </div>
                 <div className={"min-w-20 text-right text-base font-semibold text-green-700 dark:text-green-500 " + (!user.isPatner && 'hidden')}>
-                    {bill.total - (bill.total * 0.2)} <span className="text-green-800">€</span>
+                    {totalDiscount.toFixed(2)} <span className="text-green-800">€</span>
                 </div>
                 {/*Botones de editar y borrar*/}
                 <div className='flex'>

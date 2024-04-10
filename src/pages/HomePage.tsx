@@ -55,9 +55,9 @@ export function Home() {
     }
 
     return (
-        <div className="h-full flex flex-col p-2">
+        <div className="flex flex-col h-full p-2">
             {/* Header: Search and total */}
-            <div className="p-2 text-xl font-bold flex w-full truncate min-h-12">{selectedBill}</div>
+            <div className="flex w-full p-2 text-xl font-bold truncate min-h-12">{selectedBill}</div>
             <div className="flex-none mb-2">
                 <div className="flex">
                     <div className="relative flex-1">
@@ -74,16 +74,16 @@ export function Home() {
                             <i className="text-gray-400 fa-solid fa-search"></i>
                         </div>
                     </div>
-                    <div className="px-4 min-w-32 text-right">
+                    <div className="px-4 text-right min-w-32">
                         <span className='block text-xs text-gray-700 dark:text-gray-500'>Oficial</span>
-                        <span className="text-2xl text-gray-700 font-medium dark:text-white">
-                            {total} <span className="text-green-800">€</span>
+                        <span className="text-2xl font-medium text-gray-700 dark:text-white">
+                            {total.toFixed(2)} <span className="text-green-800">€</span>
                         </span>
                     </div>
                     <div className={"px-4 min-w-32 text-right " + (!user.isPatner && 'hidden')}>
                         <span className='block text-xs text-green-700 dark:text-green-500'>Socio</span>
-                        <span className="text-2xl text-green-700 font-medium dark:text-green-500">
-                            {totalDiscount} <span className="text-green-800">€</span>
+                        <span className="text-2xl font-medium text-green-700 dark:text-green-500">
+                            {totalDiscount.toFixed(2)} <span className="text-green-800">€</span>
                         </span>
                     </div>
                 </div>
@@ -102,8 +102,8 @@ export function Home() {
             </div>
 
             {/* Pruduct list */}
-            <div className="flew-grow overflow-y-auto">
-                <div className="flex-grow overflow-y-auto mb-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div className="overflow-y-auto flew-grow">
+                <div className="flex-grow mb-4 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <div className="divide-y divide-gray-200 dark:divide-gray-700">
                         {products && filteredProduct?.map((product, index) => (
                             <div className={index % 2 === 0 ? 'p-4 bg-gray-50' : 'p-4 bg-gray-100'} key={product.name}>
