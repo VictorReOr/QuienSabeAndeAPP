@@ -76,7 +76,7 @@ export function SettingsPage() {
                 <div className="flex-grow overflow-y-auto mb-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <div className="divide-y divide-gray-200 dark:divide-gray-700">
                         {catalogs && catalogs?.map((name: string, index: number) => (
-                            <div className={index % 2 ? "p-4 cursor-pointer bg-gray-50" : "p-4 cursor-pointer bg-gray-100"} key={name}>
+                            <div className={index % 2 ? "p-4 cursor-pointer bg-gray-50 dark:bg-gray-800" : "p-4 cursor-pointer bg-gray-100 dark:bg-gray-800"} key={name}>
                                 <div className="flex items-center">
                                     <div className="relative flex-shrink-0">
                                         <i className={"fa-brands fa-product-hunt " + (selectedCatalog === name ? "dark:text-blue-500" : "dark:text-gray-400")} ></i>

@@ -47,7 +47,7 @@ export function BillsPage() {
                 <div className="flex-grow mb-4 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <div className="divide-y divide-gray-200 dark:divide-gray-700">
                         {bills && bills?.map((bill: Bill, index: number) => (
-                            <BillRow key={crypto.randomUUID()} bill={bill} index={index} selectedBill={selectedBill} methods={{ selectBill, removeBill }} />
+                            <BillRow key={bill.name} bill={bill} index={index} selectedBill={selectedBill} methods={{ selectBill, removeBill }} />
                         ))}
                         {bills?.length === 0 && <div className="p-4 text-center dark:text-gray-400">No hay cuentas disponibles</div>}
                     </div>
