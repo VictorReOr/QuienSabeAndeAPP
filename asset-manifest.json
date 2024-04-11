@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/QuienSabeAndeAPP/static/css/main.8a5c3b27.css",
+    "main.js": "/QuienSabeAndeAPP/static/js/main.2e281a5c.js",
+    "static/media/portada.png": "/QuienSabeAndeAPP/static/media/portada.24b5957d76baa3accb39.png",
+    "static/media/user.png": "/QuienSabeAndeAPP/static/media/user.a6143582309785dca610.png",
+    "index.html": "/QuienSabeAndeAPP/index.html",
+    "main.8a5c3b27.css.map": "/QuienSabeAndeAPP/static/css/main.8a5c3b27.css.map",
+    "main.2e281a5c.js.map": "/QuienSabeAndeAPP/static/js/main.2e281a5c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8a5c3b27.css",
+    "static/js/main.2e281a5c.js"
+  ]
+}
