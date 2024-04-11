@@ -20,7 +20,7 @@ export function NavBar() {
     return (
         <>
             <div className="h-16 bg-white border border-gray-200 rounded-full bottom-4 left-1/2 dark:bg-gray-700 dark:border-gray-600">
-                <div className="grid h-full max-w-md grid-cols-5 mx-auto">
+                <div className="grid h-full max-w-2xl grid-cols-5 mx-auto">
 
                     <button onClick={() => navigate('/')} type="button" className="inline-flex flex-col items-center justify-center px-5 rounded-s-full hover:bg-gray-50 dark:hover:bg-gray-800 group">
                         <i className="fa-solid fa-list-check text-xl text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"></i>
@@ -44,7 +44,7 @@ export function NavBar() {
                         <span className={"text-xs " + (pathname === '/settings' ? 'text-blue-500' : 'text-gray-400')}>Configuración</span>
                     </button>
 
-                    <button onClick={() => navigate('/info')} type="button" className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group">
+                    <button onClick={() => navigate('/info')} type="button" className="inline-flex flex-col items-center justify-center px-5 rounded-r-full hover:bg-gray-50 dark:hover:bg-gray-800 group">
                         <i className="fa-solid fa-circle-info text-xl text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"></i>
                         <span className={"text-xs " + (pathname === '/info' ? 'text-blue-500' : 'text-gray-400')}>Info</span>
                     </button>
