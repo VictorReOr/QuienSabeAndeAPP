@@ -57,7 +57,7 @@ export function Home() {
     return (
         <div className="flex flex-col h-full p-2">
             {/* Header: Search and total */}
-            <h1 className="flex-grow text-2xl dark:text-gray-400 pb-2">{selectedBill}</h1>
+            <h1 className="flex-none text-2xl dark:text-gray-400 pb-2">{selectedBill}</h1>
             <div className="flex-none mb-2">
                 <div className="flex">
                     <div className="relative flex-1">
