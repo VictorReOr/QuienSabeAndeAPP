@@ -75,13 +75,13 @@ export function Home() {
                         </div>
                     </div>
                     <div className="px-4 text-right min-w-32">
-                        <span className='block text-xs text-gray-700 dark:text-gray-500'>Oficial</span>
+                        <span className='block text-xs text-gray-700 dark:text-gray-400 font-bold'>Oficial</span>
                         <span className="text-2xl font-medium text-gray-700 dark:text-white">
                             {total.toFixed(2)} <span className="text-green-800">€</span>
                         </span>
                     </div>
                     <div className={"px-4 min-w-32 text-right " + (!user.isPatner && 'hidden')}>
-                        <span className='block text-xs text-green-700 dark:text-green-500'>Socio</span>
+                        <span className='block text-xs text-green-700 dark:text-green-500 font-bold'>Socio</span>
                         <span className="text-2xl font-medium text-green-700 dark:text-green-500">
                             {totalDiscount.toFixed(2)} <span className="text-green-800">€</span>
                         </span>

@@ -58,7 +58,7 @@ export const BillRow: React.FC<Props> = ({ bill, index, selectedBill, methods })
         <div className={index % 2 ? " bg-gray-50 dark:bg-gray-800" : " bg-gray-100 dark:bg-gray-900"}>
             <div className="flex items-center justify-between cursor-pointer gap-2 px-2">
                 {/*Botón de expandir contraer*/}
-                <button className={"flex-none dark:text-gray-300 text-2xl " + (bill.total > 0 ? '' : 'text-gray-300')} onClick={() => bill.total > 0 && setIsExpanded(!isExpanded)}>
+                <button className={"flex-none dark:text-gray-300 text-2xl " + (bill.total > 0 ? '' : 'text-gray-300 dark:text-gray-600')} onClick={() => bill.total > 0 && setIsExpanded(!isExpanded)}>
                     {isExpanded ? <i className="fa-solid fa-angle-up"></i> : <i className="fa-solid fa-angle-down"></i>}
                 </button>
                 {/*Zona de datos*/}
@@ -79,8 +79,8 @@ export const BillRow: React.FC<Props> = ({ bill, index, selectedBill, methods })
                 </div>
                 {/*Total de cuenta*/}
                 <div className={"flex-none text-left font-semibold dark:text-gray-400"}>
-                    {!user.isPatner && <span>{bill.total.toFixed(2).replace('.00', '')}<span className="text-gray-500">€</span></span>}
-                    {user.isPatner && <span className="font-semibold text-green-700 dark:text-green-500">{totalDiscount.toFixed(2).replace('.00', '')}<span className="text-green-800">€</span></span>}
+                    {!user.isPatner && <span>{bill.total.toFixed(2).replace('.00', '')}<span className="text-gray-500">&nbsp;€</span></span>}
+                    {user.isPatner && <span className="font-semibold text-green-700 dark:text-green-500">{totalDiscount.toFixed(2).replace('.00', '')}<span className="text-green-800">&nbsp;€</span></span>}
                 </div>
                 {/*Botones de editar y borrar*/}
                 <div className="flex-none flex dark:text-gray-400 gap-2 pl-4">
