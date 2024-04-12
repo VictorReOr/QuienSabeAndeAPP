@@ -29,6 +29,8 @@ export const BillRow: React.FC<Props> = ({ bill, index, selectedBill, methods })
         }
     }, [isEditing]);
 
+    console.log(bill.products);
+
     const groupedProducts: { [name: string]: Product[] } = bill.products.reduce((acc: { [name: string]: Product[] }, product: any) => {
         const fixedPrice = product.price.toFixed(2);
         if (acc[product.name]) {
@@ -50,18 +52,17 @@ export const BillRow: React.FC<Props> = ({ bill, index, selectedBill, methods })
     }
     const handleDelete = () => {
         methods.removeBill(bill.name);
-
     };
 
     return (
         <div className={index % 2 ? " bg-gray-50 dark:bg-gray-800" : " bg-gray-100 dark:bg-gray-900"}>
-            <div className="flex items-center justify-between cursor-pointer">
+            <div className="flex items-center justify-between cursor-pointer gap-2 px-2">
                 {/*Botón de expandir contraer*/}
-                <button className="flex-none w-fit dark:text-gray-300 text-2xl px-4" onClick={() => setIsExpanded(!isExpanded)}>
+                <button className={"flex-none dark:text-gray-300 text-2xl " + (bill.total > 0 ? '' : 'text-gray-300')} onClick={() => bill.total > 0 && setIsExpanded(!isExpanded)}>
                     {isExpanded ? <i className="fa-solid fa-angle-up"></i> : <i className="fa-solid fa-angle-down"></i>}
                 </button>
                 {/*Zona de datos*/}
-                <div className="min-w-52 w-52 p-4" key={bill.name} onClick={() => methods.selectBill(bill)}>
+                <div className="grow p-4" key={bill.name} onClick={() => methods.selectBill(bill)}>
                     {/*Icono cartera*/}
                     <div className="flex items-center justify-start">
                         <div className="relative flex-shrink-0">
@@ -70,34 +71,30 @@ export const BillRow: React.FC<Props> = ({ bill, index, selectedBill, methods })
                         {/*Nombre y fecha*/}
                         <div className="flex max-w-40 ms-4">
                             <p className={"text-sm font-medium truncate " + (selectedBill === bill.name ? "text-blue-500 dark:text-blue-500 font-bold" : "text-gray-900 dark:text-white")}>
-                                {!isEditing && billName.current}
-                                {isEditing && <input ref={inputName} onBlur={blurHandler} defaultValue={billName.current} />}
-                                {' - '}
-                                {moment(bill.date).format('DD/MM/YYYY')}
+                                {!isEditing && billName.current + ' - ' + moment(bill.date).format('DD/MM/YYYY')}
+                                {isEditing && <input ref={inputName} onBlur={blurHandler} defaultValue={billName.current} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />}
                             </p>
                         </div>
                     </div>
                 </div>
                 {/*Total de cuenta*/}
-                <div className={"py-4 font-semibold text-right min-w-10 dark:text-gray-400"}>
-                    {bill.total.toFixed(2)} €
-                </div>
-                <div className={"min-w-20 text-right text-base font-semibold text-green-700 dark:text-green-500 " + (!user.isPatner && 'hidden')}>
-                    {totalDiscount.toFixed(2)} <span className="text-green-800">€</span>
+                <div className={"flex-none text-left font-semibold dark:text-gray-400"}>
+                    {!user.isPatner && <span>{bill.total.toFixed(2).replace('.00', '')}<span className="text-gray-500">€</span></span>}
+                    {user.isPatner && <span className="font-semibold text-green-700 dark:text-green-500">{totalDiscount.toFixed(2).replace('.00', '')}<span className="text-green-800">€</span></span>}
                 </div>
                 {/*Botones de editar y borrar*/}
-                <div className="flex dark:text-gray-400 px-2">
-                    <button className="w-fit py-4 p-2" onClick={() => setIsEditing(!isEditing)}>
+                <div className="flex-none flex dark:text-gray-400 gap-2 pl-4">
+                    <button className="w-fit py-4" onClick={() => setIsEditing(!isEditing)}>
                         <i className="fa-regular fa-pen-to-square text-xl"></i>
                     </button>
-                    <button className="w-fit py-4 p-2" onClick={handleDelete}>
+                    <button className="w-fit py-4" onClick={handleDelete}>
                         <i className="fa-solid fa-trash"></i>
                     </button>
                 </div>
             </div >
             {/*Productos de la cuenta*/}
             <div className="w-max">
-                <div className={(isExpanded ? 'p-4 w-full' : 'hidden ')}>
+                <div className={(isExpanded && bill.total > 0 ? 'p-4 w-full' : 'hidden ')}>
                     <ul className="w-full ml-2 divide-y divide-gray-200 dark:divide-gray-700">
                         {groupedProducts && Object.keys(groupedProducts).map((name: string) => (
                             <li className='w-full p-2 text-sm font-medium text-gray-900 truncate dark:text-white' key={name}>
