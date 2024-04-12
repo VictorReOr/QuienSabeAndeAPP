@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/QuienSabeAndeAPP/static/css/main.dd3dbd23.css",
-    "main.js": "/QuienSabeAndeAPP/static/js/main.1c29bdcf.js",
+    "main.css": "/QuienSabeAndeAPP/static/css/main.964a2e26.css",
+    "main.js": "/QuienSabeAndeAPP/static/js/main.3708118b.js",
     "static/media/portada.png": "/QuienSabeAndeAPP/static/media/portada.24b5957d76baa3accb39.png",
     "static/media/user.png": "/QuienSabeAndeAPP/static/media/user.a6143582309785dca610.png",
     "index.html": "/QuienSabeAndeAPP/index.html",
-    "main.dd3dbd23.css.map": "/QuienSabeAndeAPP/static/css/main.dd3dbd23.css.map",
-    "main.1c29bdcf.js.map": "/QuienSabeAndeAPP/static/js/main.1c29bdcf.js.map"
+    "main.964a2e26.css.map": "/QuienSabeAndeAPP/static/css/main.964a2e26.css.map",
+    "main.3708118b.js.map": "/QuienSabeAndeAPP/static/js/main.3708118b.js.map"
   },
   "entrypoints": [
-    "static/css/main.dd3dbd23.css",
-    "static/js/main.1c29bdcf.js"
+    "static/css/main.964a2e26.css",
+    "static/js/main.3708118b.js"
   ]
 }
