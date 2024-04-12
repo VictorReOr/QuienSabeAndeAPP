@@ -91,7 +91,7 @@ export const BillRow: React.FC<Props> = ({ bill, index, selectedBill, methods })
                 </div>
             </div >
             {/*Productos de la cuenta*/}
-            <div className="w-max">
+            <div className="w-full">
                 <div className={(isExpanded && bill.total > 0 ? 'p-4 w-full' : 'hidden ')}>
                     <ul className="w-full ml-2 divide-y divide-gray-200 dark:divide-gray-700">
                         {groupedProducts && Object.keys(groupedProducts).map((name: string) => (

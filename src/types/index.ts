@@ -23,6 +23,11 @@ export interface IndexedCatalogs {
 
 export interface DataSource {
     catalogs?: IndexedCatalogs;
+    configuration?: DatasourceConfiguration;
+}
+
+export interface DatasourceConfiguration {
+    groups?: {name:string, backgroundimage: string}[];
 }
 
 export interface Bill {
