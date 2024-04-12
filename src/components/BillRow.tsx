@@ -29,8 +29,6 @@ export const BillRow: React.FC<Props> = ({ bill, index, selectedBill, methods })
         }
     }, [isEditing]);
 
-    console.log(bill.products);
-
     const groupedProducts: { [name: string]: Product[] } = bill.products.reduce((acc: { [name: string]: Product[] }, product: any) => {
         const fixedPrice = product.price.toFixed(2);
         if (acc[product.name]) {
@@ -99,9 +97,12 @@ export const BillRow: React.FC<Props> = ({ bill, index, selectedBill, methods })
                         {groupedProducts && Object.keys(groupedProducts).map((name: string) => (
                             <li className='w-full p-2 text-sm font-medium text-gray-900 truncate dark:text-white' key={name}>
                                 <div className="flex justify-between text-left">
-                                    <p className='w-1/3 min-w-48'>{name}</p>
-                                    <p className='w-1/3 min-w-12'>x{groupedProducts[name].length}</p>
-                                    <p className='w-1/3 font-semibold min-w-12 '>{groupedProducts[name].length * groupedProducts[name][0].price} €</p>
+                                    <p className='w-1/3 min-w-40'>{name}</p>
+                                    <p className='w-1/3 min-w-14 text-right'>x&nbsp;{groupedProducts[name].length}</p>
+                                    <p className='w-1/3 font-semibold min-w-20 text-right'>
+                                        {!user.isPatner && <span>{(groupedProducts[name].length * groupedProducts[name][0].price).toFixed(2)}<span className="text-gray-500">&nbsp;€</span></span>}
+                                        {user.isPatner && <span className="font-semibold text-green-700 dark:text-green-500">{((groupedProducts[name].length * groupedProducts[name][0].price) * 0.8).toFixed(2)}<span className="text-green-800">&nbsp;€</span></span>}
+                                    </p>
                                 </div>
                             </li>
                         ))}

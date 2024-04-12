@@ -107,7 +107,7 @@ export function Home() {
                     <div className="divide-y divide-gray-200 dark:divide-gray-700">
                         {products && filteredProduct?.map((product, index) => (
                             <div className={index % 2 === 0 ? 'p-4 bg-gray-50 dark:bg-gray-800' : 'p-4 bg-gray-100 dark:bg-gray-900'} key={product.name}>
-                                <ProductItem product={product} onAdd={addProduct} onRemove={removeProduct} total={productCountByNames[product.name]} />
+                                <ProductItem product={product} isPatner={user.isPatner} onAdd={addProduct} onRemove={removeProduct} total={productCountByNames[product.name]} />
                             </div>
                         ))}
                         {!products && <Loading />}

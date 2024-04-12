@@ -1,8 +1,9 @@
 import { Product } from '../types';
 
 export function ProductItem(
-    { product, total, onAdd, onRemove }: {
+    { product, isPatner, total, onAdd, onRemove }: {
         product: Product,
+        isPatner?: boolean,
         total?: number,
         onAdd?: (product: Product) => void,
         onRemove?: (product: Product) => void
@@ -24,7 +25,8 @@ export function ProductItem(
                 </p>
             </div>
             <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                {Math.round(product.price * 100) / 100} €
+                {!isPatner && <span>{product.price.toFixed(2)}<span className="text-gray-500">&nbsp;€</span></span>}
+                {isPatner && <span className="font-semibold text-green-700 dark:text-green-500">{(product.price * 0.8).toFixed(2).replace('.00','')}<span className="text-green-800">&nbsp;€</span></span>}
             </div>
             <div className="inline-flex items-center pl-4">
                 <button type="button"
