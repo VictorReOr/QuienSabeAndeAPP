@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ProductItem } from '../components/ProductItem';
+import { PriceModal } from '../components/PriceModal';
 import { Product } from '../types';
 import { DaoService } from '../services/dao-service';
 import { Loading } from '../components/Loading';
@@ -16,6 +17,7 @@ export function Home() {
     const [productList, setProductList] = useState(bill.products);
     const [filteredProduct, setFilteredProducts] = useState([] as Product[]);
     const [selectedGroup, setSelectedGroup] = useState(null as string | null);
+    const [pendingProduct, setPendingProduct] = useState<Product | null>(null);
 
     const groups = [...new Set(products?.map(p => p.group))];
 
@@ -26,7 +28,7 @@ export function Home() {
         });
     }, []);
 
-    const total = productList.reduce((acc, product) => acc + product.price, 0);
+    const total = productList.reduce((acc, product) => acc + (typeof product.price === 'number' ? product.price : 0), 0);
     const totalDiscount = total - (total * 0.2);
     const productCountByNames = productList.reduce((acc, product) => {
         acc[product.name] = (acc[product.name] || 0) + 1;
@@ -34,8 +36,21 @@ export function Home() {
     }, {} as Record<string, number>);
 
     const addProduct = (product: Product) => {
+        if (typeof product.price === 'string') {
+            setPendingProduct(product);
+            return;
+        }
         BillService.addProductToBill(bill, product);
         setProductList(bill.products);
+    };
+
+    const confirmCustomPrice = (price: number) => {
+        if (pendingProduct) {
+            const definedProduct = { ...pendingProduct, price };
+            BillService.addProductToBill(bill, definedProduct);
+            setProductList(bill.products);
+        }
+        setPendingProduct(null);
     };
 
     const removeProduct = (product: Product) => {
@@ -57,7 +72,7 @@ export function Home() {
     return (
         <div className="flex flex-col h-full p-2">
             {/* Header: Search and total */}
-            <h1 className="flex-none text-2xl dark:text-gray-400 pb-2">{selectedBill}</h1>
+            <h1 className="flex-none text-2xl text-[#2D6A27] font-feria border-b-2 border-[#DFC48A] mb-2 pb-2">{selectedBill}</h1>
             <div className="flex-none mb-2">
                 <div className="flex">
                     <div className="relative flex-1">
@@ -66,7 +81,7 @@ export function Home() {
                             id="search"
                             type="text"
                             placeholder="Buscar ..."
-                            className="block pr-10 w-full px-4 py-2.5 rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700 dark:text-white focus:ring-4 focus:ring-blue-300 focus:outline-none"
+                            className="block pr-10 w-full px-4 py-2.5 rounded-lg border border-[#DFC48A] focus:ring-4 focus:ring-[#2D6A27]/30 focus:outline-none"
                             onChange={(e) => setFilteredProducts(searchProduct(e.target.value) || [])}
                         />
                         {/* Search icon */}
@@ -75,15 +90,15 @@ export function Home() {
                         </div>
                     </div>
                     <div className="px-4 text-right min-w-32">
-                        <span className='block text-xs text-gray-700 dark:text-gray-400 font-bold'>Oficial</span>
-                        <span className="text-2xl font-medium text-gray-700 dark:text-white">
-                            {total.toFixed(2)} <span className="text-green-800">€</span>
+                        <span className='block text-xs text-[#DFC48A] font-bold'>Oficial</span>
+                        <span className="text-2xl font-medium text-[#2D6A27] font-feria">
+                            {total.toFixed(2)} <span className="text-caseta-verde">€</span>
                         </span>
                     </div>
                     <div className={"px-4 min-w-32 text-right " + (!user.isPatner && 'hidden')}>
-                        <span className='block text-xs text-green-700 dark:text-green-500 font-bold'>Socio</span>
-                        <span className="text-2xl font-medium text-green-700 dark:text-green-500">
-                            {totalDiscount.toFixed(2)} <span className="text-green-800">€</span>
+                        <span className='block text-xs text-[#FFD700] font-bold'>Socio</span>
+                        <span className="text-2xl font-medium text-[#FFD700]">
+                            {totalDiscount.toFixed(2)} <span className="text-[#FFD700] brightness-75">€</span>
                         </span>
                     </div>
                 </div>
@@ -94,7 +109,7 @@ export function Home() {
                 <div className="flex">
                     {groups.map((group) => (
                         <button onClick={() => selectGroup(group)} key={group} type="button"
-                            className={"flex-1 tet-center text-gray-900 border border-gray-200 font-medium rounded-lg text-xs px-3 py-2 text-center dark:border-gray-700 dark:text-white me-2 mb-2 " + ((selectedGroup === group) ? 'text-white bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-700' : 'bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900')}>
+                            className={"flex-none text-center text-[#2D6A27] border border-[#2D6A27] font-medium rounded-lg text-xs px-3 py-1 me-2 mb-2 whitespace-nowrap " + ((selectedGroup === group) ? 'text-white bg-[#2D6A27]' : 'bg-white hover:bg-[#2D6A27]/10')}>
                             {group}
                         </button>
                     ))}
@@ -103,10 +118,10 @@ export function Home() {
 
             {/* Pruduct list */}
             <div className="overflow-y-auto flew-grow">
-                <div className="flex-grow mb-4 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                <div className="flex-grow mb-4 overflow-y-auto bg-white border border-[#DFC48A] rounded-lg shadow-sm">
+                    <div className="divide-y divide-[#DFC48A]/40">
                         {products && filteredProduct?.map((product, index) => (
-                            <div className={index % 2 === 0 ? 'p-4 bg-gray-50 dark:bg-gray-800' : 'p-4 bg-gray-100 dark:bg-gray-900'} key={product.name}>
+                            <div className={index % 2 === 0 ? 'p-4 bg-white' : 'p-4 bg-[#DFC48A]/10'} key={product.name}>
                                 <ProductItem product={product} isPatner={user.isPatner} onAdd={addProduct} onRemove={removeProduct} total={productCountByNames[product.name]} />
                             </div>
                         ))}
@@ -114,6 +129,14 @@ export function Home() {
                     </div>
                 </div>
             </div>
+
+            {pendingProduct && (
+                <PriceModal
+                    product={pendingProduct}
+                    onConfirm={confirmCustomPrice}
+                    onCancel={() => setPendingProduct(null)}
+                />
+            )}
         </div>
     );
 }

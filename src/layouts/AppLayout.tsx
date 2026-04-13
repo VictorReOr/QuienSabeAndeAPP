@@ -8,7 +8,7 @@ export function AppLayout() {
             <div className="h-full flex flex-col gap-2 py-2 max-w-screen-sm px-1 mx-auto">
 
                 {/* Content */}
-                <div className="flex-grow overflow-y-auto">
+                <div className="flex-grow overflow-y-auto min-h-0">
                     <Outlet />
                 </div>
 

@@ -1,5 +1,12 @@
 [
     {
+        "name": "Pescado del Día",
+        "description": "Fresco",
+        "price": "S/M",
+        "category": "food",
+        "group": "Pescados"
+    },
+    {
         "name": "Refresco",
         "description": "lata 33cl",
         "price": 1.50,

@@ -29,13 +29,11 @@ export const BillRow: React.FC<Props> = ({ bill, index, selectedBill, methods })
         }
     }, [isEditing]);
 
-    const groupedProducts: { [name: string]: Product[] } = bill.products.reduce((acc: { [name: string]: Product[] }, product: any) => {
-        const fixedPrice = product.price.toFixed(2);
+    const groupedProducts: { [name: string]: Product[] } = bill.products.reduce((acc: { [name: string]: Product[] }, product: Product) => {
         if (acc[product.name]) {
-
-            acc[product.name].push({ ...product, price: fixedPrice });
+            acc[product.name].push(product);
         } else {
-            acc[product.name] = [{ ...product, price: fixedPrice }];
+            acc[product.name] = [product];
         }
         return acc;
     }, {});
@@ -100,8 +98,8 @@ export const BillRow: React.FC<Props> = ({ bill, index, selectedBill, methods })
                                     <p className='w-1/3 min-w-40'>{name}</p>
                                     <p className='w-1/3 min-w-14 text-right'>x&nbsp;{groupedProducts[name].length}</p>
                                     <p className='w-1/3 font-semibold min-w-20 text-right'>
-                                        {!user.isPatner && <span>{(groupedProducts[name].length * groupedProducts[name][0].price).toFixed(2)}<span className="text-gray-500">&nbsp;€</span></span>}
-                                        {user.isPatner && <span className="font-semibold text-green-700 dark:text-green-500">{((groupedProducts[name].length * groupedProducts[name][0].price) * 0.8).toFixed(2)}<span className="text-green-800">&nbsp;€</span></span>}
+                                        {!user.isPatner && <span>{(groupedProducts[name].length * Number(groupedProducts[name][0].price)).toFixed(2)}<span className="text-gray-500">&nbsp;€</span></span>}
+                                        {user.isPatner && <span className="font-semibold text-green-700 dark:text-green-500">{((groupedProducts[name].length * Number(groupedProducts[name][0].price)) * 0.8).toFixed(2)}<span className="text-green-800">&nbsp;€</span></span>}
                                     </p>
                                 </div>
                             </li>
