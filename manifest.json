@@ -3,15 +3,22 @@
   "name": "Quien sabe ande",
   "icons": [
     {
-      "src": "Lupa.png",
-      "sizes": "192x192 512x512",
-      "type": "image/png"
+      "src": "lupa.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "lupa.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
     },
     {
       "src": "splash_screen.png",
       "type": "image/png",
       "sizes": "1024x1024",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ],
   "start_url": ".",
