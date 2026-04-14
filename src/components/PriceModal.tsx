@@ -18,6 +18,26 @@ export function PriceModal({ product, onConfirm, onCancel }: PriceModalProps) {
         }
     };
 
+    const adjustPrice = (amount: number) => {
+        const current = parseFloat(price.replace(',', '.')) || 0;
+        const next = Math.max(0, current + amount);
+        setPrice(next.toFixed(2));
+    };
+
+    const handleBlur = () => {
+        const numericPrice = parseFloat(price.replace(',', '.'));
+        if (!isNaN(numericPrice)) {
+            setPrice(numericPrice.toFixed(2));
+        }
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            adjustPrice(e.key === 'ArrowUp' ? 1 : -1);
+        }
+    };
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div className="w-full max-w-sm bg-white rounded-lg shadow dark:bg-gray-800 border border-gray-200 dark:border-gray-700 m-4">
@@ -35,18 +55,30 @@ export function PriceModal({ product, onConfirm, onCancel }: PriceModalProps) {
                             <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 Introducir precio acordado (€):
                             </label>
-                            <input
-                                type="number"
-                                id="price"
-                                step="0.01"
-                                min="0"
-                                value={price}
-                                onChange={(e) => setPrice(e.target.value)}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="0.00"
-                                required
-                                autoFocus
-                            />
+                            <div className="flex items-stretch mt-1 shadow-sm rounded-lg">
+                                <button type="button" onClick={() => adjustPrice(-1)} className="flex-none flex items-center justify-center w-12 bg-gray-100 hover:bg-gray-200 text-gray-600 border border-gray-300 rounded-l-lg dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 dark:text-white">
+                                    <i className="fa-solid fa-minus"></i>
+                                </button>
+                                <input
+                                    type="text"
+                                    inputMode="decimal"
+                                    id="price"
+                                    value={price}
+                                    onBlur={handleBlur}
+                                    onKeyDown={handleKeyDown}
+                                    onChange={(e) => {
+                                        const val = e.target.value.replace(/[^\d.,]/g, '');
+                                        setPrice(val);
+                                    }}
+                                    className="bg-gray-50 border-y border-x-0 border-gray-300 text-gray-900 text-center font-bold text-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="0.00"
+                                    required
+                                    autoFocus
+                                />
+                                <button type="button" onClick={() => adjustPrice(1)} className="flex-none flex items-center justify-center w-12 bg-gray-100 hover:bg-gray-200 text-gray-600 border border-gray-300 border-l-0 rounded-r-lg dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 dark:text-white">
+                                    <i className="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
                         </div>
                         <div className="flex justify-end gap-2">
                             <button

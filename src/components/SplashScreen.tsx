@@ -40,10 +40,7 @@ export function SplashScreen({ onFinished }: { onFinished: () => void }) {
 }
 
 export function shouldShowSplash(): boolean {
-  const STORAGE_KEY = 'splash_last_shown';
-  const today = new Date().toDateString();
-  const lastShown = localStorage.getItem(STORAGE_KEY);
-  if (lastShown === today) return false;
-  localStorage.setItem(STORAGE_KEY, today);
+  // Eliminamos el sessionStorage temporal de la "sesión" para que siempre aparezca 
+  // la animación al arrancar la aplicación o recargar.
   return true;
 }

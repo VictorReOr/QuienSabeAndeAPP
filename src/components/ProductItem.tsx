@@ -36,7 +36,7 @@ export function ProductItem(
             </div>
             <div className="inline-flex items-center pl-4">
                 <button type="button"
-                    onDoubleClick={() => onRemove && onRemove(product)}
+                    onClick={() => onRemove && onRemove(product)}
                     className="text-[#E8628A] border border-[#E8628A] hover:bg-[#E8628A] hover:text-white focus:ring-4 focus:outline-none focus:ring-[#E8628A]/30 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center"
                 >
                     <i className="fa-solid fa-trash-can"></i>

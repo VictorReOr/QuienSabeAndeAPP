@@ -36,26 +36,26 @@ export function Home() {
     }, {} as Record<string, number>);
 
     const addProduct = (product: Product) => {
-        if (typeof product.price === 'string') {
+        if (product.price === 'S/M') {
             setPendingProduct(product);
             return;
         }
         BillService.addProductToBill(bill, product);
-        setProductList(bill.products);
+        setProductList([...bill.products]);
     };
 
     const confirmCustomPrice = (price: number) => {
         if (pendingProduct) {
             const definedProduct = { ...pendingProduct, price };
             BillService.addProductToBill(bill, definedProduct);
-            setProductList(bill.products);
+            setProductList([...bill.products]);
         }
         setPendingProduct(null);
     };
 
     const removeProduct = (product: Product) => {
         BillService.removeProductFromBill(bill, product);
-        setProductList(bill.products);
+        setProductList([...bill.products]);
     };
 
     const searchProduct = (search: string) => {
