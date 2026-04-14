@@ -38,7 +38,7 @@ export class BillService {
      */
     public static addProductToBill(bill: Bill, product: Product): Bill {
         bill.products.push(product);
-        bill.total += typeof product.price === 'number' ? product.price : 0;
+        bill.total += product.price !== 'S/M' ? Number(product.price) : 0;
         BillService.updateBill(bill);
         return bill;
     }
@@ -73,7 +73,7 @@ export class BillService {
         const index = bill.products.findIndex((p) => p.name === product.name);
         if (index !== -1) {
             bill.products.splice(index, 1);
-            bill.total -= typeof product.price === 'number' ? product.price : 0;
+            bill.total -= product.price !== 'S/M' ? Number(product.price) : 0;
             BillService.updateBill(bill);
         }
         return bill;

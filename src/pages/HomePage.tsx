@@ -28,7 +28,7 @@ export function Home() {
         });
     }, []);
 
-    const total = productList.reduce((acc, product) => acc + (typeof product.price === 'number' ? product.price : 0), 0);
+    const total = productList.reduce((acc, product) => acc + (product.price !== 'S/M' ? Number(product.price) : 0), 0);
     const totalDiscount = total - (total * 0.2);
     const productCountByNames = productList.reduce((acc, product) => {
         acc[product.name] = (acc[product.name] || 0) + 1;
@@ -97,7 +97,7 @@ export function Home() {
                     </div>
                     <div className={"px-4 min-w-32 text-right " + (!user.isPatner && 'hidden')}>
                         <span className='block text-xs text-[#FFD700] font-bold'>Socio</span>
-                        <span className="text-2xl font-medium text-[#FFD700]">
+                        <span className="text-2xl font-medium text-[#FFD700] font-feria">
                             {totalDiscount.toFixed(2)} <span className="text-[#FFD700] brightness-75">€</span>
                         </span>
                     </div>

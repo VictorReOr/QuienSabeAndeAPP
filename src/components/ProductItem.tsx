@@ -25,10 +25,10 @@ export function ProductItem(
                 </p>
             </div>
             <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                {typeof product.price === 'number' ? (
+                {product.price !== 'S/M' ? (
                     <>
-                        {!isPatner && <span className="text-[#2D6A27]">{product.price.toFixed(2)}<span className="text-gray-500">&nbsp;€</span></span>}
-                        {isPatner && <span className="font-semibold text-[#FFD700]">{(product.price * 0.8).toFixed(2).replace('.00','')}<span className="text-[#FFD700] brightness-75">&nbsp;€</span></span>}
+                        {!isPatner && <span className="text-[#2D6A27]">{Number(product.price).toFixed(2)}<span className="text-gray-500">&nbsp;€</span></span>}
+                        {isPatner && <span className="font-semibold text-[#FFD700]">{(Number(product.price) * 0.8).toFixed(2).replace('.00','')}<span className="text-[#FFD700] brightness-75">&nbsp;€</span></span>}
                     </>
                 ) : (
                     <span className="text-gray-800 dark:text-gray-300 font-bold">{product.price}</span>
